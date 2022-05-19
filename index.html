@@ -31,12 +31,18 @@
 
 </head>
 
+
+
+
+
+
+
   <body style='margin : 0px; overflow: hidden;'>
     
 <div id="LoadingScreen" class="loading"></div>
 
     <div id="AR" style="position:absolute;width:100%;height:100%;">
-    <a-scene embedded arjs="debugUIEnabled: false" vr-mode-ui="enabled: false" >
+    <a-scene embedded arjs='debugUIEnabled: false; sourceType: webcam; sourceWidth: 480; sourceHeight: 640; displayWidth: 480; displayHeight: 640; trackingMethod: best; maxDetectionRate: 60; ' renderer='antialias: true; alpha: true; precision: medium;' vr-mode-ui="enabled: false" >
 
       <!-- Create a assets with id to hold our .gltf -->
       <a-assets>
