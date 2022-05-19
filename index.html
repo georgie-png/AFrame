@@ -7,42 +7,36 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="https://unpkg.com/aframe-particle-system-component@1.x.x/dist/aframe-particle-system-component.min.js"></script> 
-<head>
-<style>
-.loading { display:block; visibility: visible; position: absolute; z-index: 999; top: 0px; left: 0px; width: 100%; height: 100%;background-image: url("./originals symbols/drill_cauldron.png");}
 
-</style>
-
-<script>
-
-
-
-   window.onload=function() {
+  <!-- Ellements to do loading screen -->
+  <head>
+    <style>
+    .loading { display:block; visibility: visible; position: absolute; z-index: 999; top: 0px; left: 0px; width: 100%; height: 100%;background-image: url("./originals symbols/drill_cauldron.png"); background-position: center; background-repeat: no-repeat; background-size: cover; }
+    </style>
     
-    var element = document.getElementById("LoadingScreen");
-    element.onclick  = function() {
-        console.log("Clicked!!!");
+    <script>
+       window.onload=function() {
+        
         var element = document.getElementById("LoadingScreen");
-            element.style.display = "none";
-        };
-      console.log("loaded!")
-   }
-</script>
-
-</head>
-
-
-
-
-
-
-
-  <body style='margin : 0px; overflow: hidden;'>
+        element.onclick  = function() {
+            console.log("Clicked!!!");
+            var element = document.getElementById("LoadingScreen");
+                element.style.display = "none";
+            };
+          console.log("loaded!")
+       }
+    </script>
     
-<div id="LoadingScreen" class="loading"></div>
+    </head>
+    
+      <body style='margin : 0px; overflow: hidden;'>
+    
+    <!--  Div to hide AR + Prompt-->    
+    <div id="LoadingScreen" class="loading"></div>
+    
+    <div id="AR" style="position:relative;width:100%;height:100%;">
+      <a-scene embedded arjs='debugUIEnabled: false; sourceType: webcam;  displayWidth: 100%; displayHeight: 100%; trackingMethod: best; maxDetectionRate: 60; ' renderer='antialias: true; alpha: true; precision: medium;' vr-mode-ui="enabled: false" >
 
-    <div id="AR" style="position:absolute;width:100%;height:100%;">
-    <a-scene embedded arjs='debugUIEnabled: false; sourceType: webcam; sourceWidth: 480; sourceHeight: 640; displayWidth: 480; displayHeight: 640; trackingMethod: best; maxDetectionRate: 60; ' renderer='antialias: true; alpha: true; precision: medium;' vr-mode-ui="enabled: false" >
 
       <!-- Create a assets with id to hold our .gltf -->
       <a-assets>
@@ -100,8 +94,6 @@
 
  <!-- time  -->
      <a-marker type='pattern' url='./trackers/TimeMrkr.patt'>
-       <!-- mb - changed position to fit square -->
-      <a-entity position="0 0 0">
             <a-entity rotation="-90 0 0" >
 
               <a-entity   position="0 0.4 0" 
@@ -139,13 +131,12 @@
               animation-mixer>
               </a-entity>
             </a-entity>
-      </a-entity>
       </a-marker>
       
 
        <!-- cauldron  -->
      <a-marker type='pattern' url='./trackers/soupy_cauldron.patt'>
-      <a-entity position="0 0 -1.6" scale="0.75 0.75 0.75">
+      <!-- <a-entity scale="0.75 0.75 0.75"> -->
             <a-entity rotation="-90 0 0" >
 
               <a-entity   position="0 -0.3 0" 
@@ -170,7 +161,7 @@
               animation-mixer>
               </a-entity>
             </a-entity>
-      </a-entity>
+      <!-- </a-entity> -->
       </a-marker>
 
 
@@ -259,7 +250,7 @@
 
       <!-- Splashy goop into spikes - Meg1 -->
       <a-marker type='pattern' url='./trackers/drill.patt'>
-        <a-entity position="0 0 -1.6">
+        <!-- <a-entity position="0 0 -1.6"> -->
         <a-entity animation-mixer id="#SplashyCube" gltf-model="#SplashyCube"  rotation="-90 0 0" scale="0.3 0.05 0.1" position="-0.1 0 0.2" visible="true" shadow="cast: false" ></a-entity>
 
         <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90" scale="0.2 0.2 0.2" position="0.5 0 0" visible="true" shadow="cast: false" ></a-entity>
@@ -284,13 +275,13 @@
           animation-mixer>
           </a-entity>
         </a-entity>
-        </a-entity>
+        <!-- </a-entity> -->
       </a-marker>
      
 
       <!-- pipey spikes  Meg2 -->
       <a-marker type='pattern' url='./trackers/spikey_discs.patt'>
-        <a-entity position="0 0 -1.6" scale="0.75 0.75 0.75">
+        <!-- <a-entity scale="0.75 0.75 0.75"> -->
         <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="0.2 0 0" visible="true" shadow="cast: false" ></a-entity>
         <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="0.1 0 0" visible="true" shadow="cast: false" ></a-entity>
         <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="0.0 0 0" visible="true" shadow="cast: false" ></a-entity>
@@ -315,7 +306,7 @@
           animation-mixer>
           </a-entity>
         </a-entity>
-        </a-entity>
+        <!-- </a-entity> -->
 
       </a-marker>
      
@@ -324,7 +315,7 @@
 
        <!-- pyramid  -->
       <a-marker type='pattern' url='./trackers/patterMarkerzSqr.patt'>
-        <a-entity position="0 0 -1.6" scale="0.75 0.75 0.75">
+        <a-entity scale="0.75 0.75 0.75">
         <a-entity scale="0.75 0.75 0.75" 
         rotation="-90 0 0">
                 
