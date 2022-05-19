@@ -10,21 +10,52 @@
 
   <!-- Ellements to do loading screen -->
   <head>
+    <title>Modular Extractions</title>
     <style>
-    .loading { display:block; visibility: visible; position: absolute; z-index: 999; top: 0px; left: 0px; width: 100%; height: 100%;background-image: url("./originals symbols/drill_cauldron.png"); background-position: center; background-repeat: no-repeat; background-size: cover; }
+    .loading { display:block; visibility: visible; position: absolute; z-index: 999; top: 0px; left: 0px; width: 100%; height: 100%;background-image: url("./AR_Landing_page.png"); background-position: center; background-repeat: no-repeat; background-size: cover; }
     </style>
     
     <script>
+
+var tapped = 0;
+
        window.onload=function() {
         
         var element = document.getElementById("LoadingScreen");
         element.onclick  = function() {
-            console.log("Clicked!!!");
+            if(tapped==2){
+            openFullscreen();
             var element = document.getElementById("LoadingScreen");
                 element.style.display = "none";
+            }
+            else{
+              tapped++;
+            }
             };
           console.log("loaded!")
        }
+
+       // makes fullscreen when loading screen clicked
+       var elem = document.documentElement;
+      function openFullscreen() {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+          elem.msRequestFullscreen();
+        }
+      }
+      // not used but here if needed
+      function closeFullscreen() {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+          document.msExitFullscreen();
+        }
+      }
     </script>
     
     </head>
@@ -35,8 +66,7 @@
     <div id="LoadingScreen" class="loading"></div>
     
     <div id="AR" style="position:relative;width:100%;height:100%;">
-      <a-scene embedded arjs='debugUIEnabled: false; sourceType: webcam;  displayWidth: 100%; displayHeight: 100%; trackingMethod: best; maxDetectionRate: 60; ' renderer='antialias: true; alpha: true; precision: medium;' vr-mode-ui="enabled: false" >
-
+    <a-scene embedded arjs="debugUIEnabled: false" vr-mode-ui="enabled: false" >
 
       <!-- Create a assets with id to hold our .gltf -->
       <a-assets>
@@ -64,7 +94,8 @@
 
         <!-- pyramid .gltf -->
         <a-asset-item id="pyramid" src="models/pyramid/pyramid.glb" ></a-asset-item>
-        <a-asset-item id="pyramidblob" src="models/pyramid/pyramid goop.glb" ></a-asset-item>
+        <!-- take out pyramid blob for size/loading purposes-->
+        <!-- <a-asset-item id="pyramidblob" src="models/pyramid/pyramid goop.glb" ></a-asset-item> -->
         <a-asset-item id="pyramidtube" src="models/pyramid/pyramid tube.glb" ></a-asset-item>
 
         <!-- cauldron .gltf -->
@@ -85,12 +116,51 @@
 				<a-asset-item id="SplashyCube" src="./models/spinningSpikyDiscsWithSplash/splashdCube.glb"></a-asset-item> 
 
         <!-- SpinnySpikyDiscs -->
-        <a-asset-item id="BlueBlob" src="./models/spinningSpikyDiscs/blueBlob.glb"></a-asset-item>
 				<a-asset-item id="LilPipes" src="./models/spinningSpikyDiscs/pipes.glb"></a-asset-item>
-				<a-asset-item id="Spike" src="./models/spinningSpikyDiscs/spike.glb"></a-asset-item>
 				
       </a-assets>
 
+  <!-- noisey ground with blobs-->
+  <a-marker type='pattern' url='./trackers/drill.patt'>
+            <a-entity rotation="-90 0 0" >
+
+              <a-entity   position="0 0.4 0" 
+              scale="0.2  0.2 0.2"
+              gltf-model="#timegoop"
+              animation-mixer>
+              </a-entity>
+
+              <a-entity   position="0 -0.8 0" 
+              scale="0.4  0.4 0.4"
+              gltf-model="#ground"
+              animation-mixer animation="property: material.opacity; dur: 500; from: 0.2; to: 1; direction: alternate; loop: true">
+              <!-- <a-animation attribute="material.opacity" dur="500" from="0.2" to="1" direction="alternate" repeat="indefinite"></a-animation> -->
+              </a-entity>
+
+              <a-entity   position="0 -0.4 0" 
+              rotation="180 0 0"
+              scale="0.2  0.2 0.2"
+              gltf-model="#timecone"
+              animation-mixer>
+              </a-entity>
+
+            </a-entity>
+
+     
+             <a-entity id="pipes" rotation="-90 0 0" >
+              <!-- <a-entity   position="0 0.4 0" 
+              scale="0.2  0.2 0.2"
+              gltf-model="#pipe"
+              animation-mixer>
+              </a-entity> -->
+              <a-entity   position="0 -0.4 0" 
+              rotation="0 0 180"
+              scale="0.2  0.2 0.2"
+              gltf-model="#pipe"
+              animation-mixer>
+              </a-entity>
+            </a-entity> 
+      </a-marker>
 
  <!-- time  -->
      <a-marker type='pattern' url='./trackers/TimeMrkr.patt'>
@@ -249,7 +319,7 @@
       </a-marker> 
 
       <!-- Splashy goop into spikes - Meg1 -->
-      <a-marker type='pattern' url='./trackers/drill.patt'>
+      <a-marker type='pattern' url='./trackers/soupy_cloth.patt'>
         <!-- <a-entity position="0 0 -1.6"> -->
         <a-entity animation-mixer id="#SplashyCube" gltf-model="#SplashyCube"  rotation="-90 0 0" scale="0.3 0.05 0.1" position="-0.1 0 0.2" visible="true" shadow="cast: false" ></a-entity>
 
@@ -282,13 +352,13 @@
       <!-- pipey spikes  Meg2 -->
       <a-marker type='pattern' url='./trackers/spikey_discs.patt'>
         <!-- <a-entity scale="0.75 0.75 0.75"> -->
-        <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="0.2 0 0" visible="true" shadow="cast: false" ></a-entity>
-        <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="0.1 0 0" visible="true" shadow="cast: false" ></a-entity>
-        <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="0.0 0 0" visible="true" shadow="cast: false" ></a-entity>
-        <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="-0.1 0 0" visible="true" shadow="cast: false" ></a-entity>
-        <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="-0.2 0 0" visible="true" shadow="cast: false" ></a-entity>
-        <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="-0.3 0 0" visible="true" shadow="cast: false" ></a-entity>
-        <a-entity animation-mixer id="#spike" gltf-model="#Spike"  rotation="0 90 0"scale="0.2 0.2 0.2" position="-0.4 0 0" visible="true" shadow="cast: false" ></a-entity>
+        <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90" scale="0.2 0.2 0.2" position="0.3 0 0" visible="true" shadow="cast: false" ></a-entity>
+        <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90" scale="0.2 0.2 0.2" position="0.2 0 0" visible="true" shadow="cast: false" ></a-entity>
+        <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90"scale="0.2 0.2 0.2" position="0.1 0 0" visible="true" shadow="cast: false" ></a-entity>
+        <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90"scale="0.2 0.2 0.2" position="-0.0 0 0" visible="true" shadow="cast: false" ></a-entity>
+        <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90"scale="0.2 0.2 0.2" position="-0.1 0 0" visible="true" shadow="cast: false" ></a-entity>
+        <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90"scale="0.2 0.2 0.2" position="-0.2 0 0" visible="true" shadow="cast: false" ></a-entity>
+        <a-entity animation-mixer id="#Circle.002" gltf-model="#Circle.002"  rotation="0 0 90"scale="0.2 0.2 0.2" position="-0.3 0 0" visible="true" shadow="cast: false" ></a-entity>
 
         <a-entity animation-mixer id="#lilPipes" gltf-model="#LilPipes"  rotation="90 0 0"scale="0.2 0.2 0.2" position="0.15 0.5 -0.0" visible="true" shadow="cast: false" ></a-entity>
         <a-entity animation-mixer id="#lilPipes" gltf-model="#LilPipes"  rotation="90 0 180"scale="0.2 0.2 0.2" position="-0.05 0.5 -0.0" visible="true" shadow="cast: false" ></a-entity>
@@ -325,11 +395,11 @@
                 </a-entity>     
                   
 
-                <a-entity    
+                <!-- <a-entity    
                 scale="0.3 0.3 0.3"
                 gltf-model="#pyramidblob"
                 animation-mixer >        
-                </a-entity>
+                </a-entity> -->
                 
 
                 <a-entity    
@@ -384,11 +454,11 @@
         </a-entity>
 
          <a-entity id="pipes" rotation="-90 0 0" >
-              <a-entity   position="0 0.4 0" 
+              <!-- <a-entity   position="0 0.4 0" 
               scale="0.2  0.2 0.2"
               gltf-model="#pipe"
               animation-mixer>
-              </a-entity>
+              </a-entity> -->
               <a-entity   position="0 -0.4 0" 
               rotation="0 0 180"
               scale="0.2  0.2 0.2"
